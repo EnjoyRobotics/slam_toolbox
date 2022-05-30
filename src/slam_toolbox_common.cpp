@@ -481,6 +481,7 @@ bool SlamToolbox::shouldProcessScan(
   static double min_dist2 =
     smapper_->getMapper()->getParamMinimumTravelDistance() *
     smapper_->getMapper()->getParamMinimumTravelDistance();
+  static double min_head = smapper_->getMapper()->getParamMinimumTravelHeading();
   static int scan_ctr = 0;
   scan_ctr++;
 
@@ -509,7 +510,10 @@ bool SlamToolbox::shouldProcessScan(
 
   // check moved enough, within 10% for correction error
   const double dist2 = last_pose.SquaredDistance(pose);
-  if (dist2 < 0.8 * min_dist2 || scan_ctr < 5) {
+  const double head_raw = std::abs(pose.GetHeading() - last_pose.GetHeading());
+  const double head = head_raw < M_PI ? head_raw : 2*M_PI - head_raw;
+
+  if ((dist2 < 0.8 * min_dist2 && head < 0.9 * min_head) || scan_ctr < 5) {
     return false;
   }
 
