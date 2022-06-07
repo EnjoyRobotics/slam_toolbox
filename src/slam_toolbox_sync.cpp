@@ -84,7 +84,9 @@ void SynchronousSlamToolbox::laserCallback(
   }
 
   // if sync and valid, add to queue
-  if (shouldProcessScan(scan, pose)) {
+  bool should_process_scan = shouldProcessScan(scan, pose);
+  RCLCPP_INFO(get_logger(), "Process_scan: %s", should_process_scan?"+++++":"");
+  if (should_process_scan) {
     q_.push(PosedScan(scan, pose));
   }
 }
