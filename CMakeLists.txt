@@ -70,7 +70,6 @@ set(libraries
     sync_slam_toolbox
     localization_slam_toolbox
     lifelong_slam_toolbox
-    map_and_localization_slam_toolbox
 )
 
 find_package(PkgConfig REQUIRED)
@@ -167,11 +166,6 @@ target_link_libraries(lifelong_slam_toolbox toolbox_common kartoSlamToolbox ${Bo
 add_executable(lifelong_slam_toolbox_node src/experimental/slam_toolbox_lifelong_node.cpp)
 target_link_libraries(lifelong_slam_toolbox_node lifelong_slam_toolbox)
 
-add_library(map_and_localization_slam_toolbox src/experimental/slam_toolbox_map_and_localization.cpp)
-target_link_libraries(map_and_localization_slam_toolbox localization_slam_toolbox toolbox_common kartoSlamToolbox ${Boost_LIBRARIES})
-add_executable(map_and_localization_slam_toolbox_node src/experimental/slam_toolbox_map_and_localization_node.cpp)
-target_link_libraries(map_and_localization_slam_toolbox_node map_and_localization_slam_toolbox)
-
 #### Merging maps tool
 add_executable(merge_maps_kinematic src/merge_maps_kinematic.cpp)
 target_link_libraries(merge_maps_kinematic kartoSlamToolbox toolbox_common)
@@ -191,7 +185,6 @@ install(TARGETS async_slam_toolbox_node
                 sync_slam_toolbox_node
                 localization_slam_toolbox_node
                 lifelong_slam_toolbox_node
-                map_and_localization_slam_toolbox_node
                 merge_maps_kinematic
                 ${libraries}
   ARCHIVE DESTINATION lib
